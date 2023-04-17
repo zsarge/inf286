@@ -1,0 +1,15 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    height: 100%;
+    background-color: #171f2f;
+    color: #d0d1d5;
+}
+
+#conway {
+    border: 0.5rem dotted pink;
+}
