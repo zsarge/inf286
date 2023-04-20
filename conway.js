@@ -1,78 +1,17 @@
 import Board from "./modules/board.mjs";
+import GridGame from "./modules/grid_game.mjs";
 
-class GameOfLife {
-  static COLOR_ENABLED = "black";
-  static COLOR_DISABLED = "white";
+class GameOfLife extends GridGame {
   /**
    * @param {HTMLCanvasElement} canvas
    */
   constructor(canvas) {
-    /** @type HTMLCanvasElement */
-    this.canvas = canvas;
-    this.resizeCanvas();
-    /** @type CanvasRenderingContext2D */
-    this.ctx = canvas.getContext("2d");
-
-    const width = this.canvas.parentElement.clientWidth;
-    if (width < 500) {
-      /** @const {number} */
-      this.SQUARE_SIZE = 9;
-    } else {
-      /** @const {number} */
-      this.SQUARE_SIZE = 15;
-    }
-
-    /** @type number */
-    this.cellsWide = Math.ceil(this.canvas.width / this.SQUARE_SIZE);
-    /** @type number */
-    this.cellsHigh = Math.ceil(this.canvas.height / this.SQUARE_SIZE);
+    super(canvas);
 
     /** @type Board */
     this.board = new Board(this.cellsWide, this.cellsHigh);
     /** @type Board */
     this.nextBoard = new Board(this.cellsWide, this.cellsHigh);
-  }
-
-  /**
-   * Draws the board to the canvas context
-   */
-  draw() {
-    for (let y = 0; y < this.cellsHigh; y++) {
-      for (let x = 0; x < this.cellsWide; x++) {
-        this.ctx.fillStyle = this.board.get(x, y)
-          ? GameOfLife.COLOR_ENABLED
-          : GameOfLife.COLOR_DISABLED;
-        this.ctx.fillRect(
-          x * this.SQUARE_SIZE,
-          y * this.SQUARE_SIZE,
-          this.SQUARE_SIZE,
-          this.SQUARE_SIZE
-        );
-
-        this.ctx.strokeStyle = "black";
-        this.ctx.strokeRect(
-          x * this.SQUARE_SIZE,
-          y * this.SQUARE_SIZE,
-          this.SQUARE_SIZE,
-          this.SQUARE_SIZE
-        );
-      }
-    }
-  }
-
-  /**
-   * Resizes the canvas element to fit the window
-   * @param {HTMLCanvasElement} canvas
-   */
-  resizeCanvas() {
-    const ele = this.canvas.parentElement;
-    const height = ele.clientHeight;
-    const width = ele.clientWidth;
-
-    this.canvas.width = width;
-    this.canvas.height = height;
-    this.canvas.style.width = `${width}px`;
-    this.canvas.style.height = `${height}px`;
   }
 
   /**
