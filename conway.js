@@ -97,9 +97,9 @@ class GameOfLife extends GridGame {
   }
 
   /**
-   * randomize board states in UInt8Array.
+   * callback method to randomize board states in UInt8Array.
    */
-  randomize() {
+  onStart() {
     this.board.board = this.board.board.map(() => 1 * (Math.random() > 0.5));
   }
 }
@@ -108,22 +108,7 @@ const conwayCanvas = document.getElementById("conway");
 
 if (conwayCanvas.getContext) {
   const conway = new GameOfLife(conwayCanvas);
-  let gameInterval;
-
-  function startGame() {
-    conway.randomize();
-
-    conway.draw();
-
-    if (gameInterval) {
-      clearInterval(gameInterval);
-    }
-    gameInterval = setInterval(() => {
-      conway.tick();
-      conway.draw();
-    }, 100);
-  }
-  startGame();
+  conway.startGame();
 
   const callback = () => {
     // anonymous function needed to maintain the proper `this` context

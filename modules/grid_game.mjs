@@ -67,4 +67,24 @@ export default class GridGame {
     this.canvas.style.width = `${width}px`;
     this.canvas.style.height = `${height}px`;
   }
+
+  tick() {
+    throw new Exception("GridGame subclass should implement tick function");
+  }
+
+  /**
+   * sets up event listener after calling onStart hook
+   */
+  startGame() {
+    if (this.onStart) this.onStart();
+    this.draw();
+
+    if (this.gameInterval) {
+      clearInterval(this.gameInterval);
+    }
+    this.gameInterval = setInterval(() => {
+      this.tick();
+      this.draw();
+    }, 100);
+  }
 }
