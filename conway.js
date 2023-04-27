@@ -116,5 +116,7 @@ if (conwayCanvas.getContext) {
   };
   window.addEventListener("resize", callback, true);
 } else {
-  alert("Canvas is not supported on your system.");
+  alert(
+    "Canvas is not supported. Please try using the latest version of Chrome."
+  );
 }
