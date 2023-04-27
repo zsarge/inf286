@@ -12,13 +12,16 @@ export default class GridGame {
     /** @type CanvasRenderingContext2D */
     this.ctx = canvas.getContext("2d");
 
-    const width = this.canvas.parentElement.clientWidth;
-    if (width < 500) {
-      /** @const {number} */
-      this.SQUARE_SIZE = 9;
-    } else {
-      /** @const {number} */
-      this.SQUARE_SIZE = 15;
+    const parent = this.canvas.parentElement;
+    if (parent) {
+      const width = parent.clientWidth;
+      if (width < 500) {
+        /** @const {number} */
+        this.SQUARE_SIZE = 9;
+      } else {
+        /** @const {number} */
+        this.SQUARE_SIZE = 15;
+      }
     }
 
     /** @type number */
@@ -59,8 +62,14 @@ export default class GridGame {
    */
   resizeCanvas() {
     const ele = this.canvas.parentElement;
-    const height = ele.clientHeight;
-    const width = ele.clientWidth;
+    let height, width;
+    if (ele) {
+      height = ele.clientHeight;
+      width = ele.clientWidth;
+    } else {
+      height = this.cellsHigh * this.SQUARE_SIZE;
+      width = this.cellsWide * this.SQUARE_SIZE;
+    }
 
     this.canvas.width = width;
     this.canvas.height = height;
