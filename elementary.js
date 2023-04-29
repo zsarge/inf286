@@ -141,6 +141,8 @@ class ElementaryAnimation extends GridGame {
    * @param {number} pixelsWide
    * @param {number} pixelsTall
    * @param {number[][]?} state
+   * @param {number?} squareSize
+   * @param {number?} speed
    * @returns {[HTMLCanvasElement, ElementaryAnimation]}
    * @throws {Exception} - Canvas is not supported
    */
@@ -149,7 +151,7 @@ class ElementaryAnimation extends GridGame {
     pixelsTall,
     state = undefined,
     squareSize = 30,
-    speed = 30
+    speed = 40
   ) {
     state ||= Array.from(Array(pixelsTall), () => new Array(pixelsWide));
     let element = document.createElement("canvas");
@@ -191,7 +193,6 @@ export function runAnimation() {
     size,
     undefined,
     10,
-    undefined,
     speed
   );
   animation.RULE_NUMBER = parseInt(document.getElementById("rule-box").value);
