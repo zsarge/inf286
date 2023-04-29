@@ -12,8 +12,6 @@ class ElementaryAnimation extends GridGame {
     this.cellsHigh = cellsTall;
     this.board = new Board(cellsWide, cellsTall);
     this.board.board.fill(0);
-
-    // this.#startingState = [[4], [2], [1]];
   }
 
   /**
@@ -65,6 +63,24 @@ class ElementaryAnimation extends GridGame {
       });
   }
 
+  /**
+   * @param {number} row
+   * @returns {Array}
+   */
+  #getRow(row) {
+    // debugger;
+    return new Array(this.cellsWide)
+      .fill(0)
+      .map((ele, index) => this.board.get(index, row));
+  }
+
+  #currentRow = 0;
+  tick() {
+    if (this.#currentRow > this.cellsHigh) return; // TODO: clear event listener
+
+    this.#currentRow++;
+  }
+
   generate() {
     this.draw();
   }
@@ -109,13 +125,14 @@ console.log({ canvas, animation });
 animation.generate();
 document.getElementById("grids").appendChild(canvas);
 
-// const elementaryCanvas = document.getElementById("elementary");
+const elementaryCanvas = document.getElementById("elementary");
 
-// if (elementaryCanvas.getContext) {
-//   const elementary = new ElementaryAnimation(elementaryCanvas);
-//   elementary.generate();
-// } else {
-//   alert(
-//     "Canvas is not supported. Please try using the latest version of Chrome."
-//   );
-// }
+if (elementaryCanvas.getContext) {
+  const elementary = new ElementaryAnimation(elementaryCanvas);
+  console.log({ elementary });
+  elementary.generate();
+} else {
+  alert(
+    "Canvas is not supported. Please try using the latest version of Chrome."
+  );
+}
