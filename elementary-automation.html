@@ -24,11 +24,44 @@
         }
     </script>
     <div id="controller">
-        <input type="range" min="0" max="255" value="22" id="rule-slider" onchange="updateBox('rule')">
-        <input type="number" min="0" max="255" value="22" id="rule-box" onchange="updateSlider('rule')">
-        <br>
-        <input type="range" min="25" max="200" value="50" id="size-slider" onchange="updateBox('size')">
-        <input type="number" min="25" max="200" value="50" id="size-box" onchange="updateSlider('size')">
+        <table>
+            <tr>
+                <td>
+                    <label for="rule-slider">Rule</label>
+                </td>
+                <td>
+                    <input type="range" min="0" max="255" value="22" id="rule-slider" onchange="updateBox('rule')">
+                </td>
+                <td>
+                    <input type="number" min="0" max="255" value="22" id="rule-box" onchange="updateSlider('rule')">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="size-slider">Size</label>
+                </td>
+                <td>
+                    <input type="range" min="25" max="200" value="50" id="size-slider" onchange="updateBox('size')">
+                </td>
+                <td>
+                    <input type="number" min="25" max="200" value="50" id="size-box" onchange="updateSlider('size')">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="speed">Speed</label>
+                </td>
+                <td>
+                    <select name="speed" id="speed">
+                        <option value="500" label="Slow"></option>
+                        <option value="50" label="Medium"></option>
+                        <option value="30" label="Fast" selected></option>
+                        <option value="0" label="Super Fast"></option>
+                    </select>
+                </td>
+
+            </tr>
+        </table>
 
         <button id="generate" onclick="runAnimation()">Generate!</button>
     </div>

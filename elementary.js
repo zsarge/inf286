@@ -9,13 +9,15 @@ class ElementaryAnimation extends GridGame {
    * @param {number?} cellsTall
    * @param {number?} square_size
    * @param {number?} ruleNumber
+   * @param {number?} speed
    */
   constructor(
     canvas,
     cellsWide = 50,
     cellsTall = 50,
     square_size = 10,
-    ruleNumber = 22
+    ruleNumber = 22,
+    speed = 30
   ) {
     super(canvas);
     this.SQUARE_SIZE = square_size;
@@ -23,7 +25,7 @@ class ElementaryAnimation extends GridGame {
     this.cellsHigh = cellsTall;
     this.board = new Board(cellsWide, cellsTall);
     this.RULE_NUMBER = ruleNumber;
-    this.SPEED = 30;
+    this.SPEED = speed;
   }
 
   /**
@@ -142,7 +144,13 @@ class ElementaryAnimation extends GridGame {
    * @returns {[HTMLCanvasElement, ElementaryAnimation]}
    * @throws {Exception} - Canvas is not supported
    */
-  static from(pixelsWide, pixelsTall, state = undefined, squareSize = 30) {
+  static from(
+    pixelsWide,
+    pixelsTall,
+    state = undefined,
+    squareSize = 30,
+    speed = 30
+  ) {
     state ||= Array.from(Array(pixelsTall), () => new Array(pixelsWide));
     let element = document.createElement("canvas");
     if (!element.getContext) {
@@ -155,7 +163,9 @@ class ElementaryAnimation extends GridGame {
       element,
       pixelsWide,
       pixelsTall,
-      squareSize
+      squareSize,
+      undefined,
+      speed
     );
     elementary.resizeCanvas();
     elementary.generate();
@@ -174,12 +184,14 @@ export function runAnimation() {
   if (animationReference) animationReference.destroy();
 
   const size = parseInt(document.getElementById("size-box").value);
-  console.log({ size });
+  const speed = parseInt(document.getElementById("speed").value);
+  console.log({ size, speed });
   const [canvas, animation] = ElementaryAnimation.from(
     size,
     size,
     undefined,
-    10
+    10,
+    speed
   );
   animation.RULE_NUMBER = parseInt(document.getElementById("rule-box").value);
   const container = document.getElementById("animation-container");
@@ -190,32 +202,7 @@ export function runAnimation() {
   animationReference = animation;
   animation.generate();
 }
+
 window.addEventListener("DOMContentLoaded", () => {
   runAnimation();
 });
-
-// const [canvas, animation] = ElementaryAnimation.from(3, 2, [
-//   [0, 0, 1],
-//   [0, 1, 0],
-// ]);
-// console.log({ canvas, animation });
-// animation.draw();
-// document.getElementById("grids").appendChild(canvas);
-
-// const elementaryCanvas = document.getElementById("elementary");
-
-// if (elementaryCanvas.getContext) {
-//   const elementary = new ElementaryAnimation(elementaryCanvas);
-//   console.log({ elementary });
-//   elementary.generate();
-//   document.getElementById("generate").addEventListener("click", () => {
-//     elementary.RULE_NUMBER = parseInt(
-//       document.getElementById("rule-box").value
-//     );
-//     elementary.generate();
-//   });
-// } else {
-//   alert(
-//     "Canvas is not supported. Please try using the latest version of Chrome."
-//   );
-// }
