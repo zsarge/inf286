@@ -1,0 +1,25 @@
+body,
+html {
+    padding: 0.5em;
+}
+
+#controller input[type="range"] {
+    width: 200px;
+}
+
+#controller {
+    padding: 0.5em;
+    margin: 0.5em;
+}
+
+#controller td {
+    padding: 0.2em;
+}
+
+#controller table {
+    padding-bottom: 0.5em;
+}
+
+#controller button {
+    padding: 0.2em;
+}

@@ -191,6 +191,7 @@ export function runAnimation() {
     size,
     undefined,
     10,
+    undefined,
     speed
   );
   animation.RULE_NUMBER = parseInt(document.getElementById("rule-box").value);

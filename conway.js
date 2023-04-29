@@ -100,6 +100,10 @@ class GameOfLife extends GridGame {
    * callback method to randomize board states in UInt8Array.
    */
   onStart() {
+    this.randomize();
+  }
+
+  randomize() {
     this.board.board = this.board.board.map(() => 1 * (Math.random() > 0.5));
   }
 }
@@ -115,6 +119,9 @@ if (conwayCanvas.getContext) {
     conway.resizeCanvas();
   };
   window.addEventListener("resize", callback, true);
+  window.randomize = () => {
+    conway.randomize();
+  };
 } else {
   alert(
     "Canvas is not supported. Please try using the latest version of Chrome."
