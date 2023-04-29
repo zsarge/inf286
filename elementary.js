@@ -17,6 +17,39 @@ class ElementaryAnimation extends GridGame {
   }
 
   /**
+   * @param {number} index  - must be <= 255
+   * @throws {RangeError}
+   * @returns {Object} - mapping from a group of three input states to one output state
+   */
+  #getRule(index) {
+    if (index < 0 || index > 255) {
+      throw new RangeError("Rule index out of range");
+    }
+    const inputPatterns = [
+      [1, 1, 1],
+      [1, 1, 0],
+      [1, 0, 1],
+      [1, 0, 0],
+      [0, 1, 1],
+      [0, 1, 0],
+      [0, 0, 1],
+      [0, 0, 0],
+    ];
+    // create array of digits
+    const outputs = index
+      .toString(2)
+      .padStart(8, "0")
+      .split("")
+      .map((x) => parseInt(x));
+    console.assert(outputs.length == inputPatterns.length);
+    // mapping is an object that takes something like [1,1,1] and produces either 1 or 0
+    const mapping = Object.fromEntries(
+      inputPatterns.map((ele, idx) => [ele, outputs[idx]])
+    );
+    return mapping;
+  }
+
+  /**
    *
    * @param {*} x
    * @param {number} ruleNumber
@@ -57,7 +90,6 @@ class ElementaryAnimation extends GridGame {
         elementary.board.set(i, j, state[j][i]);
       }
     }
-    // TODO: map state
     return [element, elementary];
   }
 }
