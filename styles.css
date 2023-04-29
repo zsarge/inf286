@@ -8,7 +8,6 @@ html {
     height: 100%;
     background-color: #171f2f;
     color: #d0d1d5;
-    overflow: hidden;
 }
 
 #controller input[type="range"] {
