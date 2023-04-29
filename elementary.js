@@ -56,11 +56,10 @@ class ElementaryAnimation extends GridGame {
   #step(board, rule) {
     /** @param {number[]} array */
     const pad = (array) => [0, ...array, 0];
-    return pad(board) // assume zero padded borders
-      .slice(1, board.length - 1)
-      .map((ele, index) => {
-        return rule[board.slice(index, index + 3)];
-      });
+    board = pad(board); // assume zero padded borders
+    return board.slice(1, board.length - 1).map((ele, index) => {
+      return rule[board.slice(index, index + 3)];
+    });
   }
 
   /**
@@ -68,17 +67,39 @@ class ElementaryAnimation extends GridGame {
    * @returns {Array}
    */
   #getRow(row) {
-    // debugger;
     return new Array(this.cellsWide)
       .fill(0)
       .map((ele, index) => this.board.get(index, row));
   }
 
+  /**
+   * @param {number} row
+   * @param {number[]} content
+   */
+  #setRow(row, content) {
+    console.assert(content.length == this.cellsWide);
+    for (let i = 0; i < this.cellsWide; i++) {
+      this.board.set(i, row, content[i]);
+    }
+  }
+
   #currentRow = 0;
+  /**
+   * Draws next row according to rule
+   */
   tick() {
     if (this.#currentRow > this.cellsHigh) return; // TODO: clear event listener
+    const RULE_NUMBER = 3; // TODO: take as constructor or something
+    const row = this.#getRow(this.#currentRow++);
+    const newContent = this.#step(row, this.#getRule(RULE_NUMBER));
+    this.#setRow(this.#currentRow, newContent);
+    this.draw();
+  }
 
-    this.#currentRow++;
+  setStartingState() {
+    const middle = Math.round(this.cellsWide / 2);
+    this.board.set(middle, 0, 1);
+    this.draw();
   }
 
   generate() {
