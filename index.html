@@ -69,7 +69,8 @@
         <code>
             [0, 0, 0, 1, 0, 0, 0]
         </code>
-        in which there is nothing but a single value in the middle.
+        in which there is nothing but a single value in the middle. This is the typical starting state for elementary
+        cellular atomata.
     </p>
 
     <div id="example-2"></div>
@@ -98,7 +99,7 @@
     </script>
     <p>Thus, we effectively have 3 bits of input, or 2<sup>3</sup> = 8 possible inputs.</p>
     <p>One rule defines the binary output of every possible input, giving us 2<sup>8</sup> = 256 possible
-        rules. These rules are conventionally numbered 0 to 255.
+        rules. For simplicity, I will be numbering these rules from 0 to 255.
     </p>
     <p>You can play around with all of the possible rules at <a href="elementary-automaton.html">the demo</a>, but some
         samples are shown below.
@@ -132,6 +133,31 @@
             output.appendChild(getLabeledGrid(rule));
         }
     </script>
+    <h2>Conway's Game of Life</h2>
+    <p>Where elementary cellular atomata had one horizontal spacial dimension and one vertical temporal dimension,
+        Conway's Game of Life applies this concept to two dimensions.</p>
+    <p>Now, "looking at one cell, and all the cells around it" will take 9, instead of 3, cells as input
+        but will still only produce one output cell.
+    </p>
+    <p>The rules of Conway's Game of Life are defined as the following:</p>
+    <blockquote>
+        <ol>
+            <li>
+                Any live cell with two or three live neighbours survives.
+            </li>
+            <li>
+                Any dead cell with three live neighbours becomes a live cell.
+            </li>
+            <li>
+                All other live cells die in the next generation. Similarly, all other dead cells stay dead.
+            </li>
+        </ol>
+        &mdash; <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life</a>
+    </blockquote>
+    <p>
+        You can see the rules in action at the
+        <a href="conways-game-of-life.html">live demo.</a>
+    </p>
 </body>
 
 </html>

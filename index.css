@@ -95,3 +95,7 @@ h2 {
 .animation-container {
     margin: 0.1em;
 }
+
+body {
+    margin-bottom: 4em;
+}
