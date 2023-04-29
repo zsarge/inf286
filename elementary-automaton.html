@@ -79,6 +79,9 @@
     <script type="module">
         import { runAnimation } from "./elementary.js"
         window.runAnimation = runAnimation;
+        window.addEventListener("DOMContentLoaded", () => {
+            runAnimation();
+        });
     </script>
 </body>
 

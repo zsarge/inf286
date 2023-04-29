@@ -1,7 +1,7 @@
 import Board from "./modules/board.mjs";
 import GridGame from "./modules/grid_game.mjs";
 
-class ElementaryAnimation extends GridGame {
+export class ElementaryAnimation extends GridGame {
   /**
    *
    * @param {HTMLCanvasElement} canvas
@@ -170,12 +170,12 @@ class ElementaryAnimation extends GridGame {
       speed
     );
     elementary.resizeCanvas();
-    elementary.generate();
     for (let i = 0; i < pixelsWide; i++) {
       for (let j = 0; j < pixelsTall; j++) {
         elementary.board.set(i, j, state[j][i]);
       }
     }
+    elementary.draw();
     return [element, elementary];
   }
 }
@@ -204,7 +204,3 @@ export function runAnimation() {
   animationReference = animation;
   animation.generate();
 }
-
-window.addEventListener("DOMContentLoaded", () => {
-  runAnimation();
-});

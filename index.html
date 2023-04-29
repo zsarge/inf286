@@ -15,17 +15,123 @@
         <nav>
             <ul>
                 <li>
-                    <a href="elementary-automaton.html">Elementary Cellular Automaton Demo</a>
+                    <a class="demo" href="elementary-automaton.html">Elementary Cellular Automaton Demo</a>
                 </li>
                 <li>
-                    <a href="conways-game-of-life.html">Conway's Game of Life Demo</a>
+                    <a class="demo" href="conways-game-of-life.html">Conway's Game of Life Demo</a>
                 </li>
             </ul>
         </nav>
         <small>By Zack Sargent</small>
     </div>
 
+    <p>
+        I've always been fascinated by how cellular atomata can create incredibly complex outpus
+        from relatively simple inputs.
+    </p>
 
+    <p>But, before we get into that, what are cellular atomata?</p>
+
+    <p>From the name alone, you can tell that cellular automata have two main parts:</p>
+    <ol>
+        <li>Cells</li>
+        <li>Rules to animate them</li>
+    </ol>
+
+    <p>In this webpage, we will discuss two different examples of cellular atomata:</p>
+    <ul>
+        <li>Elementary Cellular Atomata</li>
+        <li>Conway's Game of Life</li>
+    </ul>
+
+    <p>What both of these have in common is that they can be displayed on a 2d grid. In our example, <b>Black</b> will
+        represent <b>1</b> and <b>White</b> will represent <b>0</b>.</p>
+
+
+    <div id="example-1"></div>
+    <script type="module">
+        import { ElementaryAnimation } from "./elementary.js"
+        let [canvas, animation] = ElementaryAnimation.from(2, 1, [[1, 0]])
+        document.querySelector("#example-1").appendChild(canvas);
+    </script>
+
+    <h2>Elementary Cellular Atomata</h2>
+    <a class="demo" href="elementary-automaton.html">Elementary Cellular Automaton Demo</a>
+
+    <p>
+        Elementary Cellular Atomata are a simple example, as each step starts takes place in one dimension.
+    </p>
+
+    <p>The cells are each a binary number, either a <code>1</code> or a <code>0</code>, and the animation takes place by
+        applying a rule that takes a group of cells, and produces what the next cell should be.</p>
+    <p>
+        We can imagine starting with the state
+        <code>
+            [0, 0, 0, 1, 0, 0, 0]
+        </code>
+        in which there is nothing but a single value in the middle.
+    </p>
+
+    <div id="example-2"></div>
+    <script type="module">
+        import { ElementaryAnimation } from "./elementary.js"
+        const [canvas, animation] = ElementaryAnimation.from(7, 1, [[0, 0, 0, 1, 0, 0, 0]])
+        document.querySelector("#example-2").appendChild(canvas);
+    </script>
+    <p>Then, in our example, we try to generate the next line of the frame by applying rules based on groupings of three
+        numbers at a time.</p>
+    <p>If we wanted to declare a rule in which the next square is a one when all of the previous pixels are ones, it
+        would look like this:</p>
+    <div id="example-3"></div>
+    <script type="module">
+        import { ElementaryAnimation } from "./elementary.js"
+        const [canvas, animation] = ElementaryAnimation.from(3, 2, [[1, 1, 1], [0, 1, 0]])
+        document.querySelector("#example-3").appendChild(canvas);
+    </script>
+    <p>and if we wanted to produce a <code>1</code> when all of the states are <code>0</code>, it would look like the
+        following:</p>
+    <div id="example-4"></div>
+    <script type="module">
+        import { ElementaryAnimation } from "./elementary.js"
+        const [canvas, animation] = ElementaryAnimation.from(3, 2, [[0, 0, 0], [0, 1, 0]])
+        document.querySelector("#example-4").appendChild(canvas);
+    </script>
+    <p>Thus, we effectively have 3 bits of input, or 2<sup>3</sup> = 8 possible inputs.</p>
+    <p>One rule defines the binary output of every possible input, giving us 2<sup>8</sup> = 256 possible
+        rules. These rules are conventionally numbered 0 to 255.
+    </p>
+    <p>You can play around with all of the possible rules at <a href="elementary-automaton.html">the demo</a>, but some
+        samples are shown below.
+    </p>
+
+    <div id="example-5"></div>
+    <script type="module">
+        import { ElementaryAnimation } from "./elementary.js"
+
+        function getLabeledGrid(rule) {
+            const container = document.createElement('div');
+            container.classList.add('animation-container');
+            const label = document.createElement('div')
+            label.classList.add("animation-label");
+            label.textContent = `Rule ${rule}`;
+            container.appendChild(label);
+            const [canvas, animation] = ElementaryAnimation.from(50, 50, null, 4.6, 0);
+            animation.RULE_NUMBER = rule;
+            animation.generate();
+            container.appendChild(canvas);
+            return container;
+        }
+        const rules = [
+            3, 18, 30,
+            90, 57, 110,
+            158, 154, 165
+        ];
+
+        const output = document.querySelector("#example-5")
+        for (const rule of rules) {
+            output.appendChild(getLabeledGrid(rule));
+        }
+    </script>
 </body>
 
 </html>
