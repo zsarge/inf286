@@ -89,7 +89,7 @@ class ElementaryAnimation extends GridGame {
    */
   tick() {
     if (this.#currentRow > this.cellsHigh) return; // TODO: clear event listener
-    const RULE_NUMBER = 3; // TODO: take as constructor or something
+    const RULE_NUMBER = 5; // TODO: take as constructor or something
     const row = this.#getRow(this.#currentRow++);
     const newContent = this.#step(row, this.#getRule(RULE_NUMBER));
     this.#setRow(this.#currentRow, newContent);
@@ -103,7 +103,14 @@ class ElementaryAnimation extends GridGame {
   }
 
   generate() {
-    this.draw();
+    this.setStartingState();
+    const interval = setInterval(() => {
+      if (this.#currentRow <= this.cellsHigh) {
+        this.tick();
+      } else {
+        clearInterval(interval);
+      }
+    }, 30);
   }
 
   /**
