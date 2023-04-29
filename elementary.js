@@ -3,16 +3,26 @@ import GridGame from "./modules/grid_game.mjs";
 
 class ElementaryAnimation extends GridGame {
   /**
+   *
    * @param {HTMLCanvasElement} canvas
+   * @param {number?} cellsWide
+   * @param {number?} cellsTall
+   * @param {number?} square_size
+   * @param {number?} ruleNumber
    */
-  constructor(canvas, cellsWide = 50, cellsTall = 50, square_size = 10) {
+  constructor(
+    canvas,
+    cellsWide = 50,
+    cellsTall = 50,
+    square_size = 10,
+    ruleNumber = 22
+  ) {
     super(canvas);
     this.SQUARE_SIZE = square_size;
     this.cellsWide = cellsWide;
     this.cellsHigh = cellsTall;
     this.board = new Board(cellsWide, cellsTall);
-    this.board.board.fill(0);
-    this.RULE_NUMBER = 22; // TODO: take as constructor or something
+    this.RULE_NUMBER = ruleNumber;
     this.SPEED = 30;
   }
 
@@ -98,29 +108,42 @@ class ElementaryAnimation extends GridGame {
   }
 
   setStartingState() {
+    this.board.board.fill(0);
     const middle = Math.round(this.cellsWide / 2);
     this.board.set(middle, 0, 1);
+    this.#currentRow = 0;
   }
 
   generate() {
+    console.log(`generating rule ${this.RULE_NUMBER}`);
     this.setStartingState();
-    const interval = setInterval(() => {
+    this.interval = setInterval(() => {
       if (this.#currentRow <= this.cellsHigh) {
         this.tick();
       } else {
-        clearInterval(interval);
+        clearInterval(this.interval);
       }
     }, this.SPEED);
+  }
+
+  destroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+    if (this.board) {
+      delete this.board;
+    }
   }
 
   /**
    * @param {number} pixelsWide
    * @param {number} pixelsTall
-   * @param {number[][]} state
+   * @param {number[][]?} state
    * @returns {[HTMLCanvasElement, ElementaryAnimation]}
    * @throws {Exception} - Canvas is not supported
    */
-  static from(pixelsWide, pixelsTall, state) {
+  static from(pixelsWide, pixelsTall, state = undefined, squareSize = 30) {
+    state ||= Array.from(Array(pixelsTall), () => new Array(pixelsWide));
     let element = document.createElement("canvas");
     if (!element.getContext) {
       throw new Error("canvas is not supported");
@@ -132,7 +155,7 @@ class ElementaryAnimation extends GridGame {
       element,
       pixelsWide,
       pixelsTall,
-      30
+      squareSize
     );
     elementary.resizeCanvas();
     elementary.generate();
@@ -145,22 +168,54 @@ class ElementaryAnimation extends GridGame {
   }
 }
 
-const [canvas, animation] = ElementaryAnimation.from(3, 2, [
-  [0, 0, 1],
-  [0, 1, 0],
-]);
-console.log({ canvas, animation });
-animation.generate();
-document.getElementById("grids").appendChild(canvas);
+let animationReference;
 
-const elementaryCanvas = document.getElementById("elementary");
+export function runAnimation() {
+  if (animationReference) animationReference.destroy();
 
-if (elementaryCanvas.getContext) {
-  const elementary = new ElementaryAnimation(elementaryCanvas);
-  console.log({ elementary });
-  elementary.generate();
-} else {
-  alert(
-    "Canvas is not supported. Please try using the latest version of Chrome."
+  const size = parseInt(document.getElementById("size-box").value);
+  console.log({ size });
+  const [canvas, animation] = ElementaryAnimation.from(
+    size,
+    size,
+    undefined,
+    10
   );
+  animation.RULE_NUMBER = parseInt(document.getElementById("rule-box").value);
+  const container = document.getElementById("animation-container");
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+  container.appendChild(canvas);
+  animationReference = animation;
+  animation.generate();
 }
+window.addEventListener("DOMContentLoaded", () => {
+  runAnimation();
+});
+
+// const [canvas, animation] = ElementaryAnimation.from(3, 2, [
+//   [0, 0, 1],
+//   [0, 1, 0],
+// ]);
+// console.log({ canvas, animation });
+// animation.draw();
+// document.getElementById("grids").appendChild(canvas);
+
+// const elementaryCanvas = document.getElementById("elementary");
+
+// if (elementaryCanvas.getContext) {
+//   const elementary = new ElementaryAnimation(elementaryCanvas);
+//   console.log({ elementary });
+//   elementary.generate();
+//   document.getElementById("generate").addEventListener("click", () => {
+//     elementary.RULE_NUMBER = parseInt(
+//       document.getElementById("rule-box").value
+//     );
+//     elementary.generate();
+//   });
+// } else {
+//   alert(
+//     "Canvas is not supported. Please try using the latest version of Chrome."
+//   );
+// }

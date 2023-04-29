@@ -13,11 +13,36 @@
     <h1>
         Elementary Cellular Automation
     </h1>
-    <canvas id="elementary" width="500" height="500">
-        Elementary Cellular Automation
-    </canvas>
+    <script>
+        function updateBox(id) {
+            const box = document.getElementById(`${id}-box`);
+            box.value = document.getElementById(`${id}-slider`).value;
+        }
+        function updateSlider(id) {
+            const slider = document.getElementById(`${id}-slider`);
+            slider.value = document.getElementById(`${id}-box`).value;
+        }
+    </script>
+    <div id="controller">
+        <input type="range" min="0" max="255" value="22" id="rule-slider" onchange="updateBox('rule')">
+        <input type="number" min="0" max="255" value="22" id="rule-box" onchange="updateSlider('rule')">
+        <br>
+        <input type="range" min="25" max="200" value="50" id="size-slider" onchange="updateBox('size')">
+        <input type="number" min="25" max="200" value="50" id="size-box" onchange="updateSlider('size')">
+
+        <button id="generate" onclick="runAnimation()">Generate!</button>
+    </div>
+    <div id="animation-container">
+        <!-- <canvas id="elementary" width="500" height="500">
+            Elementary Cellular Automation
+        </canvas> -->
+    </div>
     <div id="grids"></div>
     <script type="module" src="elementary.js"></script>
+    <script type="module">
+        import { runAnimation } from "./elementary.js"
+        window.runAnimation = runAnimation;
+    </script>
 </body>
 
 </html>

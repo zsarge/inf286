@@ -10,3 +10,7 @@ html {
     color: #d0d1d5;
     overflow: hidden;
 }
+
+#controller #range {
+    width: 200px;
+}
