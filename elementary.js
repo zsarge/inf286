@@ -17,7 +17,7 @@ class ElementaryAnimation extends GridGame {
   }
 
   /**
-   * @param {number} index  - must be <= 255
+   * @param {number} index  - 0 <= index <= 255
    * @throws {RangeError}
    * @returns {Object} - mapping from a group of three input states to one output state
    */
@@ -50,12 +50,19 @@ class ElementaryAnimation extends GridGame {
   }
 
   /**
-   *
-   * @param {*} x
-   * @param {number} ruleNumber
+   * Take in a row, and return the next state according to the provided rule.
+   * @param {number[]} board
+   * @param {object} rule
+   * @returns {number[]} - new board
    */
-  #step(x, ruleNumber) {
-    console.log(x, ruleNumber);
+  #step(board, rule) {
+    /** @param {number[]} array */
+    const pad = (array) => [0, ...array, 0];
+    return pad(board) // assume zero padded borders
+      .slice(1, board.length - 1)
+      .map((ele, index) => {
+        return rule[board.slice(index, index + 3)];
+      });
   }
 
   generate() {
