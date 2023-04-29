@@ -12,6 +12,8 @@ class ElementaryAnimation extends GridGame {
     this.cellsHigh = cellsTall;
     this.board = new Board(cellsWide, cellsTall);
     this.board.board.fill(0);
+    this.RULE_NUMBER = 22; // TODO: take as constructor or something
+    this.SPEED = 30;
   }
 
   /**
@@ -88,10 +90,9 @@ class ElementaryAnimation extends GridGame {
    * Draws next row according to rule
    */
   tick() {
-    if (this.#currentRow > this.cellsHigh) return; // TODO: clear event listener
-    const RULE_NUMBER = 5; // TODO: take as constructor or something
+    if (this.#currentRow > this.cellsHigh) return;
     const row = this.#getRow(this.#currentRow++);
-    const newContent = this.#step(row, this.#getRule(RULE_NUMBER));
+    const newContent = this.#step(row, this.#getRule(this.RULE_NUMBER));
     this.#setRow(this.#currentRow, newContent);
     this.draw();
   }
@@ -99,7 +100,6 @@ class ElementaryAnimation extends GridGame {
   setStartingState() {
     const middle = Math.round(this.cellsWide / 2);
     this.board.set(middle, 0, 1);
-    this.draw();
   }
 
   generate() {
@@ -110,7 +110,7 @@ class ElementaryAnimation extends GridGame {
       } else {
         clearInterval(interval);
       }
-    }, 30);
+    }, this.SPEED);
   }
 
   /**
